@@ -7,12 +7,11 @@ public interface MyList <E> extends Iterable <E>{
     boolean isEmpty();
     boolean contains(E e);
     E add (E e);
-    boolean addAll();
+    boolean addAll(Collection c);
     E get(int index);
     E set(int index, E e);
     void remove(int index);
+    void remove(E e);
     void clear();
-    int curSize();
-
-
+    void toArray(E e);
 }
