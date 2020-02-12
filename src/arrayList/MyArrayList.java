@@ -7,7 +7,6 @@ public class MyArrayList<E> implements MyList<E> {
     private E[] values;
     private int curSize;
 
-
     public MyArrayList(Collection<E> collection) {
         values = (E[]) new Object[collection.size()];
         Iterator<E> iterator = collection.iterator();
@@ -17,21 +16,17 @@ public class MyArrayList<E> implements MyList<E> {
         }
     }
 
-    public MyArrayList(int initialCapacity) {
-
-    }
+    public MyArrayList(int initialCapacity) { }
 
     public MyArrayList() {
         values = (E[]) new Object[10];
         curSize = 0;
     }
 
-
     @Override
     public int size() {
         return curSize;
     }
-
 
     @Override
     public boolean isEmpty() {
@@ -60,7 +55,6 @@ public class MyArrayList<E> implements MyList<E> {
         return values[curSize - 1];
     }
 
-
     @Override
     public boolean addAll(Collection  c) {
         if (c.isEmpty()) {
@@ -88,7 +82,6 @@ public class MyArrayList<E> implements MyList<E> {
         return values[index];
     }
 
-
     @Override
     public E set(int index, E e) {
         if (index > curSize) {
@@ -96,7 +89,6 @@ public class MyArrayList<E> implements MyList<E> {
         }
         return values[index] = e;
     }
-
 
     @Override
     public void remove(int index) {
