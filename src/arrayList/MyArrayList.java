@@ -2,10 +2,13 @@ package arrayList;
 
 import java.util.*;
 
+
 public class MyArrayList<E> implements MyList<E> {
+
 
     private E[] values;
     private int curSize;
+    private static   final Object[] EMPTY_ELEMENTDATA = {};
 
     public MyArrayList(Collection<E> collection) {
         values = (E[]) new Object[collection.size()];
@@ -16,7 +19,16 @@ public class MyArrayList<E> implements MyList<E> {
         }
     }
 
-    public MyArrayList(int initialCapacity) { }
+    public MyArrayList(int initialCapacity) {
+        if (initialCapacity > 0) {
+            this.values = (E[])  new Object[initialCapacity];
+        } else if (initialCapacity == 0) {
+            this.values = (E[]) EMPTY_ELEMENTDATA;
+        } else {
+            throw new IllegalArgumentException("Illegal Capacity: "+
+                    initialCapacity);
+        }
+    }
 
     public MyArrayList() {
         values = (E[]) new Object[10];
@@ -56,19 +68,12 @@ public class MyArrayList<E> implements MyList<E> {
     }
 
     @Override
-    public boolean addAll(Collection  c) {
+    public boolean addAll(Collection<? extends  E> c) {
         if (c.isEmpty()) {
-            throw new NullPointerException("Пустой масив");
-        }
-        Object[] data = c.toArray();
-        int collectionSize = data.length;
-        if(collectionSize == 0){
             return false;
         }
-        if(collectionSize > (values.length - curSize)){
-            values = (E[]) new Object[(int) (curSize + collectionSize)];
-            System.arraycopy(data, 0,values, 0, collectionSize);
-            curSize = curSize + collectionSize;
+        for (E e : c) {
+            add(e);
         }
         return true;
     }
@@ -93,7 +98,7 @@ public class MyArrayList<E> implements MyList<E> {
     @Override
     public void remove(int index) {
 
-        for (int i = index; i < curSize - 1; i++) {
+        for (int i = index; i < curSize; i++) {
             values[i] = values[i + 1];
         }
         curSize--;
@@ -101,27 +106,26 @@ public class MyArrayList<E> implements MyList<E> {
 
     @Override
     public void remove(E e) {
-        for (int i = 0; i < curSize-1 ; i++) {
-            if(values[i].equals(e)){
-                int index = i ;
-                for (int j = index; j < curSize - 1; j++) {
-                    values[j] = values[j + 1];
-                }
-                curSize--;
+        for (int i = 0; i < curSize; i++) {
+            if (values[i].equals(e)) {
+                int index = i;
+                remove(index);
             }
+            curSize--;
         }
     }
 
     @Override
     public void clear() {
         values = (E[]) new Object[values.length];
+        curSize = 0;
     }
 
     @Override
-    public void toArray(E e) {
+    public void toArray() {
         List<E> array = new ArrayList<E>();
-        E[] arr =  (E[]) new Objects[array.size()];
-        for (int i =0; i < array.size(); i++)
+        E[] arr = (E[]) new Objects[array.size()];
+        for (int i = 0; i < array.size(); i++)
             arr[i] = array.get(i);
 
     }
@@ -130,4 +134,5 @@ public class MyArrayList<E> implements MyList<E> {
     public Iterator<E> iterator() {
         return new ArrayIterator<E>(values);
     }
+
 }
