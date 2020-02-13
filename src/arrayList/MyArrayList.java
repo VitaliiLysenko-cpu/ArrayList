@@ -57,9 +57,9 @@ public class MyArrayList<E> implements MyList<E> {
 
     @Override
     public E add(E e) {
-        if (size() == values.length) {
-            E[] temp = values;
-            values = (E[]) new Object[(int) (values.length * 1.5)];
+            if (size() == values.length) {
+                E[] temp = values;
+               // values = (E[]) new Object[(int) (values.length * 1.5)];
             System.arraycopy(temp, 0, values, 0, curSize);
         }
         values[curSize] = e;
