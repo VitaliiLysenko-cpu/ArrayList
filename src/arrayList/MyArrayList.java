@@ -1,14 +1,16 @@
-package arrayList;
+ package arrayList;
 
-import java.util.*;
+ import java.util.Arrays;
+ import java.util.Collection;
+ import java.util.Iterator;
 
 
-public class MyArrayList<E> implements MyList<E> {
+ public class MyArrayList<E> implements MyList<E> {
 
 
+    private static final Object[] EMPTY_ELEMENTDATA = {};
     private E[] values;
     private int curSize;
-    private static   final Object[] EMPTY_ELEMENTDATA = {};
 
     public MyArrayList(Collection<E> collection) {
         values = (E[]) new Object[collection.size()];
@@ -21,11 +23,11 @@ public class MyArrayList<E> implements MyList<E> {
 
     public MyArrayList(int initialCapacity) {
         if (initialCapacity > 0) {
-            this.values = (E[])  new Object[initialCapacity];
+            this.values = (E[]) new Object[initialCapacity];
         } else if (initialCapacity == 0) {
             this.values = (E[]) EMPTY_ELEMENTDATA;
         } else {
-            throw new IllegalArgumentException("Illegal Capacity: "+
+            throw new IllegalArgumentException("Illegal Capacity: " +
                     initialCapacity);
         }
     }
@@ -56,19 +58,18 @@ public class MyArrayList<E> implements MyList<E> {
     }
 
     @Override
-    public E add(E e) {
-            if (size() == values.length) {
-                E[] temp = values;
-               // values = (E[]) new Object[(int) (values.length * 1.5)];
+    public void add(E e) {
+        if (size() == values.length) {
+            E[] temp = values;
+            values = (E[]) new Object[(int) (values.length * 1.5)];
             System.arraycopy(temp, 0, values, 0, curSize);
         }
         values[curSize] = e;
         curSize++;
-        return values[curSize - 1];
     }
 
     @Override
-    public boolean addAll(Collection<? extends  E> c) {
+    public boolean addAll(Collection<? extends E> c) {
         if (c.isEmpty()) {
             return false;
         }
@@ -78,12 +79,15 @@ public class MyArrayList<E> implements MyList<E> {
         return true;
     }
 
+    public int getCurSize() {
+        return curSize;
+    }
+
     @Override
     public E get(int index) {
         if (index >= curSize) {
             throw new ArrayIndexOutOfBoundsException("Выход за пределы массива  ");
         }
-
         return values[index];
     }
 
@@ -115,24 +119,20 @@ public class MyArrayList<E> implements MyList<E> {
         }
     }
 
+     @Override
+     public <T> T[] toArray(T[] a) {
+        return(T[])  Arrays.copyOf(values, curSize, a.getClass());
+    }
+
     @Override
     public void clear() {
         values = (E[]) new Object[values.length];
         curSize = 0;
     }
 
-    @Override
-    public void toArray() {
-        List<E> array = new ArrayList<E>();
-        E[] arr = (E[]) new Objects[array.size()];
-        for (int i = 0; i < array.size(); i++)
-            arr[i] = array.get(i);
-
-    }
-
-    @Override
+ @Override
     public Iterator<E> iterator() {
         return new ArrayIterator<E>(values);
     }
-
-}
+ }
+// forEach перебирає кожен елемент масиву.
